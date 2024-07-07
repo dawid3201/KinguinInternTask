@@ -50,7 +50,7 @@ class InterKinguinApplicationTests {
 	}
 	//------------------------------------------------TESTS-FOR-BOOKS-METHODS-------------------------------------------
 	@Test
-	public void addBookSuccessful(){
+	public void addBookSuccessful() throws BookAlreadyExistsException {
 		when(bookRepository.findByTitle(book.getTitle())).thenReturn(null);
 		ResponseEntity<?> responseEntity = api.addBook(book);
 		assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
@@ -114,7 +114,7 @@ class InterKinguinApplicationTests {
 	}
 	//------------------------------------------------TESTS-FOR-USER-METHODS--------------------------------------------
 	@Test
-	public void addUserSuccess(){
+	public void addUserSuccess() throws EmailAlreadyExistsException {
 		when(userRepository.findByEmail(user.getEmail())).thenReturn(null);
 		ResponseEntity<?> responseEntity = api.addUser(user);
 		assertEquals(HttpStatus.OK.value(), responseEntity.getStatusCode().value());
@@ -129,7 +129,7 @@ class InterKinguinApplicationTests {
 		assertEquals("An account with this email already exists.", responseEntity.getBody());
 	}
 	@Test
-	public void deleteAccountSuccess(){
+	public void deleteAccountSuccess() throws ReturnAllBooksException {
 		when(userRepository.findByEmail("test@email.com")).thenReturn(user);
 		ResponseEntity<?> response = api.deleteAccount("test@email.com");
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode().value());
@@ -187,7 +187,7 @@ class InterKinguinApplicationTests {
 		assertEquals("Account was not found.", responseEntity.getBody());
 	}
 	@Test
-	public void returnBookSuccess(){
+	public void returnBookSuccess() throws BookNotFoundException, AccountNotFoundException {
 		String userEmail = "test@email.com";
 		String bookTitle = "Available Book";
 
